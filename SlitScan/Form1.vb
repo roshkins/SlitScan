@@ -13,20 +13,24 @@ Public Class frmSplitScan
                 Exit For
             End If
         Next
-        myAudioFilter = Filters.AudioInputDevices(0)
+        If Not IsNothing(myVideoFilter) And Not IsNothing(myAudioFilter) Then
+            myAudioFilter = Filters.AudioInputDevices(0)
 
-        Dim capture As New Capture(myVideoFilter, myAudioFilter)
-        c = capture
-        capture.PreviewWindow = picScan
-        capture.VideoCompressor = Filters.VideoCompressors(0)
-        capture.AudioCompressor = Filters.AudioCompressors(0)
-        capture.FrameRate = 29.997               '  // NTSC
-        capture.FrameSize = New Size(640, 480)   '// 640x480
-        capture.AudioSamplingRate = 44100       ' // 44.1 kHz
-        capture.AudioSampleSize = 16              ' // 16-bit
-        capture.AudioChannels = 2                 ' // Mono
-        ' c.Start()
-
+            Dim capture As New Capture(myVideoFilter, myAudioFilter)
+            c = capture
+            capture.PreviewWindow = picScan
+            capture.VideoCompressor = Filters.VideoCompressors(0)
+            capture.AudioCompressor = Filters.AudioCompressors(0)
+            capture.FrameRate = 29.997               '  // NTSC
+            capture.FrameSize = New Size(640, 480)   '// 640x480
+            capture.AudioSamplingRate = 44100       ' // 44.1 kHz
+            capture.AudioSampleSize = 16              ' // 16-bit
+            capture.AudioChannels = 2                 ' // Mono
+            ' c.Start()
+        Else
+            MsgBox("No video source found. Exiting.")
+            Application.Exit()
+        End If
     End Sub
     Dim c As Capture
     Private Sub btnGo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGo.Click
